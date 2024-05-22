@@ -1,0 +1,1011 @@
+<HTML>
+<HEAD>
+ <TITLE>Schematic Control</TITLE>
+ <META NAME="generator" CONTENT="Kees Rijnen">
+ <meta name="copyright" value="© Kees Rijnen, Last updated: %date.">
+</HEAD>
+
+
+
+<BODY style="font-family:'Arial'; font-size:8pt;  background-color:white;" bgcolor="white" bgproperties="fixed">
+
+
+ <H1 align="left"  style="font-size:12pt;margin-top:18.00pt;margin-bottom:6.00pt;text-align:left;background-color:#003366; " ><B><FONT size=5 color=white  style="font-family:'Verdana'; font-size:16pt; color:white; font-weight:bold; " >Helium Schematic Control</FONT></B></H1>
+ <BR>
+
+
+
+
+
+<P align="left"  style="margin-top:6.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	A SchematicControl item is used to place a flow-chart control on the rollout. The user can create and connect different nodes and respond via maxscript. 
+</FONT></P>
+
+<BR>
+<IMG SRC="HeliumHelpBMP.jpg" BORDER=1><BR>
+<BR>
+
+<BR><BR>
+<P align="left"  style="margin-top:6.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	The syntax is:
+</FONT></P>
+
+
+
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >SchematicControl</FONT></B>
+
+	<FONT size=2  style="font-family:'Courier New'; font-size:10pt; " > &lt;name&gt; [ &lt;caption&gt; ]</FONT>
+	<FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >[</FONT>
+	<B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >width</FONT></B>
+	<FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >:&lt;integer&gt;] [</FONT>
+	<B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >height</FONT></B>
+	<FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >:&lt;integer&gt;] </FONT>
+</P>
+<BR>
+<BR>
+
+
+
+<P align="left"  style="margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#ccffe5; " ><B><I><FONT size=2  style="font-family:'Verdana'; font-size:10pt; font-weight:bold; font-style:italic; font-variant:small-caps; " >
+	Example:
+</FONT></I></B></P>
+
+
+
+<P align="left"  style="margin-left:18.00pt;margin-top:6.00pt;margin-bottom:0.00pt;text-align:left;" ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >
+	SchematicControl s </FONT><FONT size=2 color=maroon  style="font-family:'Courier New'; font-size:10pt; color:maroon; " >&quot;View &quot;</FONT><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " > width:150 height:200
+</P>
+<BR>
+<BR>
+
+
+<P align="left"  style="margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#ffcccc; " ><B><FONT size=2  style="font-family:'Verdana'; font-size:10pt; font-weight:bold; font-variant:small-caps; " >
+	Notes: </FONT></B>
+</P>
+
+
+
+<P align="left"  style="margin-left:18.00pt;margin-top:6.00pt;margin-bottom:0.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	<B>1</B>. It is important to know that functions in the SchematicControl are to be run <B>without</B> brackets. Example:<BR>
+	</FONT><FONT size=2 color=maroon  style="font-family:'Courier New'; font-size:10pt; color:green; " >        s.addNode</FONT><BR>
+	<FONT size=2  style="font-family:'Verdana'; font-size:10pt;">    Versus:</FONT><BR>
+	</FONT><FONT size=2 color=maroon  style="font-family:'Courier New'; font-size:10pt; color:red; " >        s.addNode()</FONT><FONT size=2  style="font-family:'Verdana'; font-size:10pt;"><I> <- incorrect</I><BR>
+</FONT></P>
+<BR><BR>
+
+
+<P align="left"  style="margin-left:18.00pt;margin-top:6.00pt;margin-bottom:0.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	<B>2</B>. Most functions in the SchematicControl work on an <B>Active Node</B> and/or <B>Active Socket</B>.<BR>
+	Since a flow chart can contain many nodes, it is important for the Helium SchematicControl to know which node you wish to work on. This is done by setting the Active Node index. (The Active Node does not have to be the <I>selected</I> node).<BR>
+	Example:<BR><BR>
+	    <I>The below example shows how to change the name of a node by setting the Active Node to the correct node first:</I><BR>
+	</FONT>
+	</FONT><FONT size=2 color=maroon  style="font-family:'Courier New'; font-size:10pt; color:green; " >
+	    heliumOps.targetControl.activeNode = 5 -- set node with index 5 to active<BR>
+	    heliumOps.targetControl.nodeName = "New Name" -- change the name<BR>
+	    heliumOps.targetControl.redrawNode -- redraw the active node<BR>
+</FONT></P>
+<BR>
+
+
+
+<P align="left"  style="margin-left:18.00pt;margin-top:6.00pt;margin-bottom:0.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	<B>3</B>. A Schematic Node can have any number of in and output sockets.<BR>
+	Each socket has a unique ID per node.<BR>
+	Connections between sockets are always considered to be made from an <B>Output Socket</B> to an <B>Input Socket</B>.<BR>
+	The UI will allow you to make connections in either direction, but it is still returned to maxscript from output socket to input socket.<BR>
+	(See 'connectionChanged' event)<BR>
+</FONT></P>
+<BR>
+<BR>
+
+
+
+
+<P align="left"  style="margin-top:12.00pt;margin-bottom:3.00pt;text-align:left;background-color:white; " ><B><FONT size=2  style="font-family:'Verdana'; font-size:10pt; font-weight:bold; " >
+	Events</FONT></B>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	LButtonDblclk</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >:
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Left mouse button double clicked.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	LButtonDown</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >:
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Left mouse button down/pressed.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	LButtonUp</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >:
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Left mouse button up/released.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	MButtonDown</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >:
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Middle mouse button down/pressed.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	MButtonUp</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >:
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Middle  mouse button up/released.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	mouseScroll</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >:
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Middle mouse button is scrolled.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	mouseMoved</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >:
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Mouse is moved within rollout.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	rButtonDown</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >:
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Right mouse button down/pressed.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	rButtonUp</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >:
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Right mouse button up/released.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	killFocus</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >:
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Mouse was clicked somewhere outside of the schematic and the schematic has lost mouse and keyboard control.</FONT>
+</P>
+
+
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	nodeClicked</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " > index :
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	A Node was clicked in the view. The index is the index of the node that was clicked on.</FONT>
+</P>
+
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	connectionChanged</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " > fromNodeIndex toNodeIndex toSocketID fromSocketID status toSocketCount :
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	A connection was created or broken: <BR>
+	fromNodeIndex: the node with the <B>output socket</B>.<BR>
+	toNodeIndex: the node with the <B>input socket</B>.<BR>
+	toSocketID: the ID of the input socket.<BR>
+	fromSocketID: the ID of the output socket.<BR>
+	status: 0 if the connection was broken, 1 if the connection was created.<BR>
+	toSocketCount: New number of connections going into the input socket.<BR>
+
+</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	socketValueChanged</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " > nodeIndex socketID :
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	The value of a socket was changed: <BR>
+	nodeIndex: the node with the socket.<BR>
+	socketID: the ID of the socket.<BR>
+
+</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	preNodesDeleted</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >:
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Node(s) are about to be deleted via the UI. You should not delete/add nodes in this event.<BR>
+	You could get the selected nodes during this event to know what nodes were deleted in 'nodesDeleted' event.<BR>
+</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	nodesDeleted</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >:
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Node(s) were deleted via the UI.<BR>
+	If you do not want nodes to be deletable via the UI but only via MXS (i.e. an RCMenu) then use the property: <B>.allowUIDelete = false</B>.<BR>
+</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	connectionSelectionChanged</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " > fromNodeIndex toNodeIndex toSocketID fromSocketID :
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	A connection was selected. <BR>
+	This functions will return the information for the newly selected connection. <BR>
+	Only one connection can be selected in the graph. <BR>
+	<I>(If you want to know when a connection is unselected, use LButtonUp and getSelectedConnectionIndex)</I><BR>
+	fromNodeIndex: the node with the <B>output socket</B>.<BR>
+	toNodeIndex: the node with the <B>input socket</B>.<BR>
+	toSocketID: the ID of the input socket.<BR>
+	fromSocketID: the ID of the output socket.<BR>
+</FONT>
+</P>
+
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	keyboardDown</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " > keyCode :
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	A key on the keyboard was pressed, keyCode stands for the key that was pressed. Print the keyCode to figure out what key is what code.</FONT>
+</P>
+
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	keyboardUp</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " > keyCode :
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	A key on the keyboard was released, keyCode stands for the key that was pressed. Print the keyCode to figure out what key is what code.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	connectToEmpty</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " > nodeIndex socketIndex socketType:
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	This event is send when a connection was initiated, but released in an empty area of the view.<BR>
+	nodeIndex: the node from which the connection was made.<BR>
+	socketIndex: the socket from which the connection was made.<BR>
+	socketType: the type of socket (input:0, or output:1)<BR></FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	connectionStarted</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " > nodeIndex socketIndex socketType:
+</FONT></P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	This event is send when a new connection was initiated (and not yet finished). Use the 'mouseMoved' event to do things during 'connection-dragging' and use 'LButtonUp' to know when a connection ended.<BR>
+	nodeIndex: the node from which the connection was made.<BR>
+	socketIndex: the socket from which the connection was made.<BR>
+	socketType: the type of socket (input:0, or output:1)<BR></FONT>
+</P>
+
+
+<BR><BR>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<P align="left"  style="margin-top:12.00pt;margin-bottom:3.00pt;text-align:left;background-color:white; " ><B><FONT size=2  style="font-family:'Verdana'; font-size:10pt; font-weight:bold; " >
+	Functions</B></FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	<I>Please see the notes at the top of this page for instructions on how to use the functions (no brackets).</I><BR>
+	<I>The difference between functions and properties are a bit vague in this control, so be sure to check both areas.</I><BR>
+	<I>Generally, functions only return values or perform some task (read only), while properties can get and set values (read and write).</I><BR>
+</FONT>
+</P>
+
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	redrawView</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >:</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Redraws the entire SchematicControl view.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	redrawNode</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >:</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Redraws the Active Node.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	getNodeCount</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >:</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Returns the total number of nodes in the view (integer).</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	findNodeByPos</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " > = Point2:</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Pass it a Point2 (usually mouse position) and the schematic will return the node index at that position. -1 is no node was found (integer). This is used to do hitchecking to see what node is at the current mouse position.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	addNode</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >: </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Add a new node to the schematic. Returns the index of the newly added node (integer).</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	deleteActiveNode</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >: </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Delete the active node from the schematic (via maxscript). Returns true of false (boolean). </FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	getSelectionCount</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >: </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Returns the number of nodes selected in the view (integer). </FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	deleteActiveSocket</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >: </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Deletes the Active Socket of the Active Node. Returns true of false (boolean).</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	getSocketCount</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >: </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Returns the socket count of the Active Node (integer).</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	toggleConnection</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " > = Point2 : </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Creates a new connection from the Active Node and its Active Socket to the node and socket specified in the Point2.<BR>
+	Example:<BR>
+	    s.toggleConnection = [targetNodeIndex,targetInputSocketID]<BR><BR>
+	<B>Note</B>: <BR>
+	    The Active Node must always be the Node with the OUTPUT socket.<BR>
+	    The Active Socket must be an Output Socket.<BR>
+	    If a connection already exists, toggleConnection will remove the existing connection.<BR>
+	    Please note that the schematic makes no attempt to prevent cyclic problems (child is wired into parent and parent into child).<BR>
+	    It is up to you to prevent this, if that is a concern for your tool.</FONT>
+</P>
+
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	getActiveSocketType</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >: </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Returns the type of the active socket. 0 if the socket is an input socket, 1 if its an output socket, -1 if there was no active socket (integer).</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	getActiveSocketConnectingNodeIndices</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >: </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Returns an array of node indices to which the active socket is connected (integers). Please note that a node index might be returned more then once in this array, since there might be multiple connections between the active socket and the connecting node.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	getActiveSocketConnectingSocketIndices</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >: </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Returns an array of socket IDs to which the active socket is connected (integers).<BR>
+	<B>Note</B>: <BR>
+	    Socket IDs are unique per node, but two different nodes may have a socket with the same index.<BR>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	addInSocket</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >: </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Creates a new in socket to the Active Node.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	addOutSocket</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >: </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Creates a new out socket to the Active Node.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	getSelectedConnectionIndex</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >: </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Returns the index of the selected connection of the active socket on the active Node. Returns 0 if no connection was selected. <BR>
+	The active Node is the Node with the Outsocket of the connection, the active socket is the outSocket.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	getChildCount</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >: </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Returns the number of children the activeNode has. </FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	childIndex</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " > = Integer : </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Returns the schematic node index of the provided child (index)<BR>
+	Example:<BR>
+	    s.childIndex = 1<BR><BR>
+	<B>Note</B>: <BR>
+	    The above example will return the node index of the activeNode's first child. </FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	getConnectionWeight</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " > = Integer : </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Returns the connection weight of the provided connection index. The weight is an integer.<BR>
+	Example:<BR>
+	    s.getConnectionWeight = 1<BR><BR>
+	<B>Note</B>: <BR>
+	    The above example will return the connectionWeight of the activeSocket's first connection. <BR>
+	    <I>Do not forget to set the activeNode and activeSocket.</I> </FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	setConnectionWeight</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " > = Point2 : </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Set a new weight value for the provided connection. The weight must be an integer.<BR>
+	Example:<BR>
+	    s.setConnectionWeight = [2, 75]<BR><BR>
+	<B>Note</B>: <BR>
+	    The above example will set the connectionWeight of the activeSocket's second connection to 75. <BR>
+	    <I>Do not forget to set the activeNode and activeSocket.</I> </FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	getSelectedConnectionNodeAndSocket</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >: </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Returns a point2 that holds the node index and socket index of the selected connection. (There can only be one selected connection per graph). Returns false if no connections were selected.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	getDeletedNodeCount</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >: </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Returns the number of nodes deleted since the last time the 'nodesDeleted' event was sent to maxscript. Use this incombination with 'getDeletedNodeIndex'.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	getDeletedNodeIndex</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >: = Integer : </FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Returns the index of the delete node. The Integer you provide is in order the nodes were deleted. So you can for loop through 'getDeletedNodeCount' to get all indices that were deleted.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	setRenderBall</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Material</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Set the bitmap of the active node to display the 'renderball' of the provided material. This is a 'one time' grab. If the material updates, you must call this again. Size of renderball bitmap is 88x88, use bitmapSize to adjust nodeBitmap to this size. You MUST have called 'nodeBitmap' before using setRenderBall or no bitmap will be displayed. Simply provide a new (empty) bitmap to nodeBitmap before calling this function.</FONT>
+</P>
+
+<BR><BR>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<P align="left"  style="margin-top:12.00pt;margin-bottom:3.00pt;text-align:left;background-color:white; " ><B><FONT size=2  style="font-family:'Verdana'; font-size:10pt; font-weight:bold; " >
+Properties</FONT></B>
+</P>
+<BR>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	width</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Integer</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Set the width of the schematic control</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	height</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Integer</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Set the height of the schematic control</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	pos</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Point2</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Set the position of the schematic control</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	allowUIDelete</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Whether to allow nodes/connections being deleted via the UI (delete button) or not (in which case they can only be deleted via Maxscript)</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	allowZoom</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Whether to allow the view to be zoomed</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	allowPan</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Whether to allow the view to be panned</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	activeNode</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Integer</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set the index of the Active Node. This is the node most functions use to operate on.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	selectedNodeIndex</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Integer</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/Set the index of the selected node. Returns -1 if no node is selected. If multiple nodes are selected, the last created node that is selected will be returned.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	nodeName</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                String</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set the name of the Active Node. Node labels can be multi-line by adding '\r\n' at the end of each line.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	nodeBitmap</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Bitmap</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Set a bitmap for the Active Node. Note that bitmaps are not saved with the max scene. There is currently no GET method.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	activeNodePos</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Point2</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set the position of the Active Node. The position is relative to the position of the SchematicControl. So a position of [0,0] means the node will be in the top left of the schematic.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	activeNodePosRelative</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Point2</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set the position of the Active Node, but relative to the view's zoom and pan. The position is relative to the position of the SchematicControl. So a position of [0,0] means the node will be in the top left of the schematic.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	activeNodeCollapsed</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set collapsed state of Active Node. A collapse Node hides the sockets and bitmap.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	nodeColor</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Color</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set the color of the Active Node. A completely black color (color 0 0 0) makes the inside of the node transparent. Other nodes may still be drawn on top, so usually transparent nodes should be added last to the schematic so that they are drawn on top.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	nodeSize</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Point2</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set the size of the Active Node.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	isHidden</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set hidden state for the Active Node. A hidden node is not drawn and cannot be selected in the UI.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	bitmapPath</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                String</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set a path for the bitmap for the Active Node. This path is NOT used by the Schematic Control to automatically load images from disk (you control loading bitmaps on the maxscript side). You can use it to re-find your bitmaps on a reLoad or rollout open for example (optional).</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	sceneNode</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Node</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set a max scene Node for the Active Schematic Node. The max scene node is not used by the Schematic Control, but this option could aid you in making schematic scripts that represent max scene nodes (Optional).</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	activeSocket</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Integer</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set the active socket for the Active Node. </FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	socketName</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                String</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set the name of the active socket on the Active Node. </FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	activeSocketFlipped</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set the flipped state of the active socket on the Active Node. A flipped socket will drawn on the opesite side (left vs right).</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	activeSocketValue</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Float</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set the value of the active socket on the Active Node. If you assign a <B>.sceneController</B> to the socket the scene controller value is displayed in the view instead (if controller superclass is float), HOWEVER 'activeSocketValue' still returns the value previously stored and not the controller's value. If you want to get the value of the controller instead, you would use <B>.sceneController</B> to get the controller, then use <B>.controller.value</B> to use it's value.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	activeSocketShowValue</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >                Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set whether to display the value of the active socket on the Active Node or not.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	sceneController</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Controller</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set a scene controller for the active socket on the Active Node. The Schematic Control does not use this controller, but it might aid you in writting controller related scripts. If you assign a controller to an output socket, the controllers value will be shown in the schematic view if the controller is of superclass float.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	nodeInfo</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               String</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Store custom information on active node. You may use this to store anything, for example a sub-class you made up or perhaps a function you want to run when the node is selected.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	pan</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Point2</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set pan of view.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	zoom</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Float</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set zoom of view.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	socketPosition</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Point2</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set position of active Socket. Normally the socket position is controlled by helium, but if you wish, you can override it.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	posLocked</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set wheter the active node is position locked. When true, the node cannot be moved. Useful for simulating nodes as buttons.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	nodeNameOffset</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Point2</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set position OFFSET for node name label. An offset of [0,0] will draw the node at the top-center of the node. This can be used when you start setting custom positions for sockets and you wish to move the node label. Setting any value higher then [x,5] will stop drawing the node's menubar.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	connectionColor</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Color</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set connection (line) color for active output socket. Note setting this property for in-sockets is useless as the outsocket determines the color of the connection line.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	isSelected</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set wheter the active node is selected.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	selectable</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set wheter the active node can be selected via the UI. This can be useful to make a node act as a groupbox for custom UIs. Set the color of the node the same as the max background and make it not selectable.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	socketLabelOffset</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Point2</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set position offset for active socket label. If this is [0,0] the label is drawn on the right or left side of the socket.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	nodeCollapsedSize</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Point2</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set size for active node when it is collapsed.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	edgeSize</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Float</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set size for active node rounded edges. A smaller value makes the edges more square. Note if you set the node width and height the same as the edgeSize, you will get a circle.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	socketDataClass</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               String</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set socket data class for active Socket. This is not used internally in helium, but it allows you to check what type of data (class) the input and output sockets can handle. This class string is also shown when you try to make a new connection.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	showBitmapOnly</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set show bitmap only state of active node. If true, only the bitmap of the node is shown, this allows you to fully customize the look of your nodes. Please note that also the in and out sockets are not drawn although the node can still have sockets. You can visualize the sockets in your bitmap and place the helium sockets (now hidden) in the same location as where the sockets are in your bitmap (use socketPosition to move your sockets around).</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	isCollapsible</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set collapsible state of active node. If you do not want a node to be collapsible (for example if you used showBitmapOnly) you can set this to false and double clicking on the ndoe will be ignored.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	backgroundBitmap</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Bitmap</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Set background image for view. There is currently no GET method.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	backgroundPath</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               String</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set path string for background image. The background image is NOT automatically reloaded when the max file is re-opened. You can use this path to reload the background image automatically on for example a 'rollout open' event using openBitmap(). </FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	tileBackground</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set tiling of the background image.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	parentNode</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Integer</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Set the parent (index) for the activeNode. The activeNode will move relative to its parent node. The parent is simply another node in the schematic. You could use 'isHidden' on the children to simulate grouping of nodes. Use a value of 0 to unlink from the parent. Please note that the schematic makes no attempt to prevent cyclic problems (child is parent of its parent). It is up to you to prevent this, if that is a concern for your tool.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	showInfo</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Hide / unHide copyright information at the bottom right of the view.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	drawConnectionsFromParent</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	If a node is hidden but it has a parent node, this settings controls wheter to draw the connections of the hidden node from the parent. This is useful when you simulate grouping by parenting and hidding the children, however you still want to see the connections.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	socketInfo</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               String</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Store custom information on active socket. You may use this to store anything, for example connection data.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	drawWeights</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/Set wheter to draw weights for connections. Defaults to false.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	allowRegionSelect</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/Set wheter Region Selects can be made in the UI.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	textAlign</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Integer</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/Set alignment of the active node label. 1=left, 2=center, 3=right.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	bitmapSize</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Point2</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set size for active node bitmap. The default size is 80x80.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	socketIsHidden</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/set active socket hidden state. When a socket is hidden, no node size adjustment is made. If you want to change the node size when hidding a socket, you must call nodeSize. The default height of a socket is 16, so you can subtract 16 from nodeSize.y for each hidden socket.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	drawShadows</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/Set drawing of node shadows. Default to false, so no shadows are drawn by default to be compatible with older versions of helium.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	drawLastIndex</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Integer</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/Set the index of the node that should be drawn last. This is useful if you want to make sure that for example the selected node is always drawn on top.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	drawMenuBars</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/Set wheter menubars are drawn at the top of each node. This defaults to false to stay compatible with older scripts. Menubars are not drawn for transparent nodes or nodes that have their node label moved down by more then 5 units.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	drawSeperator</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/Set wheter a seperator line is drawn above the active socket. This allows you to visually group sockets together by placing seperator lines between sockets that do not belong together.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	zoomAboutMouse</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Get/Set wheter zooming happens around the mouse cursor. This defaults to true, so zooming may have a different behaviour then in older versions</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	nodeTransparency</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Float</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	If set to 0.0 or higher, nodes will be drawn with that amount of transparency. Set to -1.0 when not using transparency (default).</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	setInfo</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               String</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	This allows you to set the text that is displayed at the bottom right of the screen. (ShowInfo must be set to true for this text to show up)</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	viewAlign</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Integer</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	By providing a value of -1, the node will be locked to the top-left side of the view. +1 will lock the node on the top right. 0 is the default and does not lock a node, so it can be moved.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	viewAlignOffset</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Point2</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Allows for additional offset to be added to the View Aligned node (so it can be moved around and still be locked to the view)</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	showMiniBitmap</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Set/Get if the active node should show a mini-bitmap when collapsed or not. Defaults to true, so all nodes show a mini-bitmap when collapsed.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	drawLayer</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Integer</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Set/Get the layer this node will be drawn on. You must set 'useDrawLayers' to TRUE for the schematic for this to be used. There are 3 layers, background=1, middle=2 (default) and foreground=3.</FONT>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#cce5ff; " ><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >&lt;SchematicControl&gt;.</FONT><B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; font-weight:bold; " >
+	useDrawLayers</FONT></B><FONT size=2  style="font-family:'Courier New'; font-size:10pt; " >               Boolean</FONT>
+</P>
+<P align="left"  style="margin-left:36.00pt;margin-top:0.00pt;margin-bottom:6.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	By default nodes are drawn in the order they are created. Setting this to TRUE will allow you to specify a layer for each node to control the draw order. See 'drawLayer'.</FONT>
+</P>
+
+
+
+<BR><BR>
+
+<P align="left"  style="margin-top:0.00pt;margin-bottom:0.00pt;text-align:left;background-color:#ffcccc; " ><B><FONT size=2  style="font-family:'Verdana'; font-size:10pt; font-weight:bold; font-variant:small-caps; " >
+	How To Use the UI: </FONT></B>
+</P>
+
+<P align="left"  style="margin-left:18.00pt;margin-top:6.00pt;margin-bottom:0.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >
+	Hold down the middle mouse to pan.<BR>
+	Scroll the middle mouse to zoom.<BR>
+	Click on a node to select it, use ALT and CTRL to remove or add to your selection.<BR>
+	Click and drag to make a selection rectangle.<BR>
+	Double Click on a node to collapse it (unless 'collapsible' is set to false for that node)<BR>
+	If .AllowUIDelete is true, you may use the DEL button to delete nodes directly via the UI.<BR><BR>
+
+	SHIFT click on a socket to flip it to the other side.<BR>
+	ALT-click on an input-socket to hide all it's inputs, CTRL-click to unhide.<BR>
+	Middle-click and drag on an output-socket to change it's value (hold CTRL to change it faster).<BR><BR>
+
+	Generally a scripted right-click menu (RCMenu) is used to allow you to add new nodes and change their properties.<BR>
+	You must script this RCMenu yourself.<BR>
+	See <B>Helium_Menu.ms</B> for details on how to set one up for your scripts.<BR>
+</FONT></P>
+<BR><BR>
+
+
+
+<P align="left"  style="margin-top:12.00pt;margin-bottom:3.00pt;text-align:left;background-color:#ffe5cc; " ><B><FONT size=2  style="font-family:'Verdana'; font-size:10pt; font-weight:bold; " >
+	Information</FONT></B>
+</P>
+
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:3.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >Copyright, © Kees Rijnen, support@lumonix.net, <A href="http://www.lumonix.net/">www.lumonix.net</FONT></A><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " > </FONT></P>
+<BR><BR>
+<P align="left"  style="margin-left:14.40pt;margin-top:0.00pt;margin-bottom:3.00pt;text-align:left;" ><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " >Special Thanks go to Larry Minton, Rejean Poirier, www.maxplugins.de, Bobo, plus all beta testers.</FONT></A><FONT size=2  style="font-family:'Verdana'; font-size:10pt; " > </FONT></P>
+<BR><BR>
+
+
+</BODY>
+</HTML>
