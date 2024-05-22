@@ -129,6 +129,10 @@
       </StripPrivateSymbols>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup>	
+		<!-- clear RunMUIRCT postbuild event -->
+		<PostBuildEvent><Command></Command></PostBuildEvent>		
+  </ItemDefinitionGroup>		
 	<ItemGroup>
     <ClInclude Include="src/PS_Events.h" />
     <ClInclude Include="src/PS_Nodes.h" />
