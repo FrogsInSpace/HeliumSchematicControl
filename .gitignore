@@ -1,0 +1,9 @@
+*.suo
+obj/
+x64/
+*.aps
+ipch/
+*.sdf
+.vs/
+RCa12100
+Release*/
