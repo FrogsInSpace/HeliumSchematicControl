@@ -1,4 +1,4 @@
-LIBRARY Helium.dlx
+LIBRARY
 EXPORTS
 	LibDescription			@1		PRIVATE
 	LibInit					@2		PRIVATE

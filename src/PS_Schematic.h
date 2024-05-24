@@ -80,6 +80,6 @@ visible_class(SchematicControl)	// Macro
 
 #include "PS_SchematicControl.h"
 
-visible_class_instance(SchematicControl, "SchematicControl")	// Macro for RolloutControls
+visible_class_instance(SchematicControl, "KrakatoaSchematicControl")	// Macro for RolloutControls
 
 #endif
