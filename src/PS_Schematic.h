@@ -37,13 +37,15 @@ modification, are permitted provided that the following conditions are met:
 	Includes and defines
    =========================================================================== */
 
-#define NODEMOVEDRAWTH 5;
+#define KRAKATOA_BUILD
+
+#define NODEMOVEDRAWTH 5
 
 #include <max.h>	// needed for gport below:
 #include <gport.h>	// need for rendering renderBalls (pStamp)
 
 #include <maxscript/maxscript.h>
-#include <maxscript\maxwrapper\mxsobjects.h>
+#include <maxscript/maxwrapper/mxsobjects.h>
 #include <maxscript/compiler/parser.h>
 #include <maxscript/foundation/3dmath.h>	// for Point2Value
 #include <maxscript/foundation/numbers.h>	// for intern
@@ -58,7 +60,7 @@ modification, are permitted provided that the following conditions are met:
 #define ScripterExport __declspec( dllexport )
 
 // this defines def_name, so we need it here:
-#include <maxscript\macros\define_instantiation_functions.h>
+#include <maxscript/macros/define_instantiation_functions.h>
 
 #include "PS_Events.h"			// events that get send to maxscript rollout
 #include "PS_Nodes.h"			// schematic node definitions
@@ -80,6 +82,10 @@ visible_class(SchematicControl)	// Macro
 
 #include "PS_SchematicControl.h"
 
+#ifdef KRAKATOA_BUILD
 visible_class_instance(SchematicControl, "KrakatoaSchematicControl")	// Macro for RolloutControls
+#else
+visible_class_instance(SchematicControl, "SchematicControl")	// Macro for RolloutControls
+#endif
 
 #endif

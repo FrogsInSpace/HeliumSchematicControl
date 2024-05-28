@@ -54,7 +54,7 @@ public:
 	// we do not supply this function and let a default implementation take over
 	// see ps_schematic.cpp for details:
 	void		collect(); // { delete this; }
-	void		sprin1(CharStream* s) { s->printf(_T("KrakatoaSchematicControl:%s"), name->to_string()); }
+	void		sprin1(CharStream* s) { s->printf(_T("SchematicControl:%s"), name->to_string()); }
 	void		add_control(Rollout *ro, HWND parent, HINSTANCE hInstance, int& current_y);
 	void		adjust_control(int& current_y);
 	LPCTSTR		get_control_class() { return SCHEMATIC_WINDOWCLASS; }

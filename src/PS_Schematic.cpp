@@ -2979,7 +2979,11 @@ void SchematicInit()
 	}
 
 	// make new rolloutControl available to maxscript rollouts:
+#ifdef KRAKATOA_BUILD
+	install_rollout_control(Name::intern(_T("KrakatoaSchematicControl")), SchematicControl::create);
+#else
 	install_rollout_control(Name::intern(_T("SchematicControl")), SchematicControl::create);
+#endif
 }
 
 // -------------------------------- Add Node --------------------------------
