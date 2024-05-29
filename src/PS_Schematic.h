@@ -37,7 +37,12 @@ modification, are permitted provided that the following conditions are met:
 	Includes and defines
    =========================================================================== */
 
-#define KRAKATOA_BUILD
+// KRAKATOA_BUILD should be externally defined, using following msbuild syntax
+// MSBuild PS_Schematic.sln /p:KRAKATOA_BUILD=Krakatoa
+// the assigned value gets used as target-postfix ( see .vcproj )
+// eg. resulting in "SchematicControlKrakatoa_XXXX.dlx" as full target name
+   
+//#define KRAKATOA_BUILD
 
 #define NODEMOVEDRAWTH 5
 
@@ -81,6 +86,7 @@ extern void SchematicInit();
 visible_class(SchematicControl)	// Macro
 
 #include "PS_SchematicControl.h"
+
 
 #ifdef KRAKATOA_BUILD
 visible_class_instance(SchematicControl, "KrakatoaSchematicControl")	// Macro for RolloutControls

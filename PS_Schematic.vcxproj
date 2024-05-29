@@ -62,7 +62,7 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup>
-    <TargetName>HeliumKrakatoa_$(MaxSDKRelease)</TargetName>
+    <TargetName>Helium$(KRAKATOA_BUILD)_$(MaxSDKRelease)</TargetName>
     <TargetExt>.dlx</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="$(Configuration.Contains('Release'))">
@@ -130,6 +130,10 @@
       </StripPrivateSymbols>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup>	
+		<!-- clear RunMUIRCT postbuild event -->
+		<PostBuildEvent><Command></Command></PostBuildEvent>		
+  </ItemDefinitionGroup>		
   <ItemGroup>
     <ClInclude Include="src/PS_Events.h" />
     <ClInclude Include="src/PS_Nodes.h" />
