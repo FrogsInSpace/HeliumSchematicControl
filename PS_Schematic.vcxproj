@@ -4,7 +4,7 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <ProjectGuid>{5951C2D5-CB01-4EE6-962B-86084C2F1A77}</ProjectGuid>
     <RootNamespace>PS_Schematic</RootNamespace>
-    <ConfigurationType>DynamicLibrary</ConfigurationType>		
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
   </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Hybrid-Max2025|x64">
@@ -59,11 +59,11 @@
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>	
+  </ImportGroup>
   <PropertyGroup>
-    <TargetName>Helium_$(MaxSDKRelease)</TargetName>
+    <TargetName>Helium$(KRAKATOA_BUILD)_$(MaxSDKRelease)</TargetName>
     <TargetExt>.dlx</TargetExt>
-  </PropertyGroup>	
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="$(Configuration.Contains('Release'))">
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
@@ -73,6 +73,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>$(MaxSDKPath)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;_USRDLL;PS_Schematic_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(KRAKATOA_BUILD)'!=''">KRAKATOA_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -103,8 +104,9 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(MaxSDKPath)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-	  <!--<UndefinePreprocessorDefinitions>DEFINE_TO_UNDEFINE;%(UndefinePreprocessorDefinitions)</UndefinePreprocessorDefinitions>-->
+      <!--<UndefinePreprocessorDefinitions>DEFINE_TO_UNDEFINE;%(UndefinePreprocessorDefinitions)</UndefinePreprocessorDefinitions>-->
       <PreprocessorDefinitions>NOMINMAX;_USRDLL;PS_Schematic_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(KRAKATOA_BUILD)'!=''">KRAKATOA_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>			
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <BrowseInformation>true</BrowseInformation>
@@ -129,11 +131,14 @@
       </StripPrivateSymbols>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup>	
-		<!-- clear RunMUIRCT postbuild event -->
-		<PostBuildEvent><Command></Command></PostBuildEvent>		
-  </ItemDefinitionGroup>		
-	<ItemGroup>
+  <ItemDefinitionGroup>
+    <!-- clear RunMUIRCT postbuild event -->
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
     <ClInclude Include="src/PS_Events.h" />
     <ClInclude Include="src/PS_Nodes.h" />
     <ClInclude Include="src/PS_SceneData.h" />
