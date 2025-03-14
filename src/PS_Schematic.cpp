@@ -2979,7 +2979,7 @@ void SchematicInit()
 	}
 
 	// make new rolloutControl available to maxscript rollouts:
-	install_rollout_control(Name::intern(_T("SchematicControl")), SchematicControl::create);
+	install_rollout_control(Name::intern( _M(MXS_EXPORT_NAME)), SchematicControl::create);
 }
 
 // -------------------------------- Add Node --------------------------------

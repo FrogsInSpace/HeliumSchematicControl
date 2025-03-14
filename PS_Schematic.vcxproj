@@ -77,7 +77,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>$(MaxSDKPath)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;_USRDLL;PS_Schematic_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(KRAKATOA_BUILD)'!=''">KRAKATOA_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(KRAKATOA_BUILD)'!=''">KRAKATOA_BUILD="Krakatoa";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -110,7 +110,7 @@
       <AdditionalIncludeDirectories>$(MaxSDKPath)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <!--<UndefinePreprocessorDefinitions>DEFINE_TO_UNDEFINE;%(UndefinePreprocessorDefinitions)</UndefinePreprocessorDefinitions>-->
       <PreprocessorDefinitions>NOMINMAX;_USRDLL;PS_Schematic_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(KRAKATOA_BUILD)'!=''">KRAKATOA_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>			
+      <PreprocessorDefinitions Condition="'$(KRAKATOA_BUILD)'!=''">KRAKATOA_BUILD="Krakatoa";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <BrowseInformation>true</BrowseInformation>

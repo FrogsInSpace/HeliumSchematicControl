@@ -80,6 +80,12 @@ visible_class(SchematicControl)	// Macro
 
 #include "PS_SchematicControl.h"
 
-visible_class_instance(SchematicControl, "SchematicControl")	// Macro for RolloutControls
+#ifdef KRAKATOA_BUILD
+#define MXS_EXPORT_NAME "KrakatoaSchematicControl"
+#else
+#define MXS_EXPORT_NAME "SchematicControl"
+#endif
+
+visible_class_instance(SchematicControl, MXS_EXPORT_NAME)
 
 #endif
