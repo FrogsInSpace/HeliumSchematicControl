@@ -21,6 +21,7 @@
     <MaxSDKRelease Condition="$(Configuration.Contains('2024'))">2024</MaxSDKRelease>
     <MaxSDKRelease Condition="$(Configuration.Contains('2025'))">2025</MaxSDKRelease>
     <MaxSDKRelease Condition="$(Configuration.Contains('2026'))">2026</MaxSDKRelease>
+    <MaxSDKRelease Condition="$(Configuration.Contains('2027'))">2027</MaxSDKRelease>
     <MaxSDKPath Condition="$(MaxSDKRelease)=='2008'">$(ADSK_3DSMAX_SDK_2008)</MaxSDKPath>
     <MaxSDKPath Condition="$(MaxSDKRelease)=='2009'">$(ADSK_3DSMAX_SDK_2009)</MaxSDKPath>
     <MaxSDKPath Condition="$(MaxSDKRelease)=='2010'">$(ADSK_3DSMAX_SDK_2010)</MaxSDKPath>
@@ -40,6 +41,7 @@
     <MaxSDKPath Condition="$(MaxSDKRelease)=='2024'">$(ADSK_3DSMAX_SDK_2024)</MaxSDKPath>
     <MaxSDKPath Condition="$(MaxSDKRelease)=='2025'">$(ADSK_3DSMAX_SDK_2025)</MaxSDKPath>
     <MaxSDKPath Condition="$(MaxSDKRelease)=='2026'">$(ADSK_3DSMAX_SDK_2026)</MaxSDKPath>
+    <MaxSDKPath Condition="$(MaxSDKRelease)=='2027'">$(ADSK_3DSMAX_SDK_2027)</MaxSDKPath>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <PlatformToolset>v80</PlatformToolset>
@@ -62,6 +64,7 @@
     <PlatformToolset Condition="$(MaxSDKRelease)=='2024'">v142</PlatformToolset>
     <PlatformToolset Condition="$(MaxSDKRelease)=='2025'">v143</PlatformToolset>
     <PlatformToolset Condition="$(MaxSDKRelease)=='2026'">v143</PlatformToolset>
+    <PlatformToolset Condition="$(MaxSDKRelease)=='2027'">v143</PlatformToolset>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(MaxSDKPath)\ProjectSettings\propertySheets\3dsmax.cpp.props" />	
@@ -74,8 +77,18 @@
 		<MaxSdkLib>$(MaxSDKPath)\lib\x64\Release</MaxSdkLib>
   </PropertyGroup>
   <!-- Max2013 and earlier used a different layout in the SDK folders-->
-  <PropertyGroup Condition="'$(MaxSDKRelease)'=='2013' Or '$(MaxSDKRelease)'=='2012' Or '$(MaxSDKRelease)'=='2011' Or '$(MaxSDKRelease)'=='2010' Or '$(MaxSDKRelease)'=='2009' Or '$(MaxSDKRelease)'=='2008'  Or '$(MaxSDKRelease)'=='9'">
+  <PropertyGroup Condition="'$(MaxSDKRelease)' &lt; '2014'">
     <MaxSdkLib>$(MaxSDKPath)\x64\lib\</MaxSdkLib>
     <MaxSdkLib Condition="'$(Platform)'!='x64'">$(MaxSDKPath)\lib\</MaxSdkLib>
   </PropertyGroup>
+  <ItemDefinitionGroup>	
+    <!-- clear RunMUIRCT postbuild event -->
+    <PostBuildEvent>
+      <Command />
+    </PostBuildEvent>	
+		<Link>
+			<!-- clear private PDB file creation in 3ds Max SDK folder -->
+      <StripPrivateSymbols />
+    </Link>
+  </ItemDefinitionGroup>		
 </Project>

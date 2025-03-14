@@ -11,6 +11,10 @@
       <Configuration>Hybrid-Max2025</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release-Max2027|x64">
+      <Configuration>Release-Max2027</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release-Max2026|x64">
       <Configuration>Release-Max2026</Configuration>
       <Platform>x64</Platform>
